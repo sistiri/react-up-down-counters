@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react";
 
-const useCounter = () => {
-    const [counter, setCounter] = useState(0);
+const useCounter = (forwards = true) => {
+  const [counter, setCounter] = useState(0);
 
-    useEffect(() => {
-      const interval = setInterval(() => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (forwards) {
         setCounter((prevCounter) => prevCounter + 1);
-      }, 1000);
-  
-      return () => clearInterval(interval);
-    }, []);
+      } else {
+        setCounter((prevCounter) => prevCounter - 1);
+      }
+    }, 1000);
 
-    return counter
-  
+    return () => clearInterval(interval);
+  }, [forwards]);
+
+  return counter;
 };
 
 export default useCounter;
